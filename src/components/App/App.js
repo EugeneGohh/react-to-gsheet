@@ -63,7 +63,7 @@ function App() {
   return (
     <div className={classes.root}>
       <Typography variant="h4" gutterBottom style={{ wordWrap: "break-word" }}>
-        Transfer Data <br /> From React to <br /> Google Sheets
+        Transfer Data <br /> from React to <br /> Google Sheets
       </Typography>
 
       <Container className="container">
