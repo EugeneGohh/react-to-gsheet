@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import "./App.css";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, TextField, Container } from "@material-ui/core";
+import { Button, TextField, Container, Typography } from "@material-ui/core";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
-      width: "25ch",
+      width: "38ch",
+    },
+    "@global": {
+      html: {
+        [theme.breakpoints.up("sm")]: {
+          fontSize: 25,
+        },
+      },
     },
   },
 }));
@@ -16,8 +24,8 @@ function App() {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
-  const [salary, setSalary] = useState("");
-  const [hobby, setHobby] = useState("");
+  const [interests, setInterests] = useState("");
+  const [languages, setLanguages] = useState("");
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -27,21 +35,37 @@ function App() {
     setAge(e.target.value);
   };
 
-  const handleChangeSalary = (e) => {
-    setSalary(e.target.value);
+  const handleChangeInterests = (e) => {
+    setInterests(e.target.value);
   };
 
-  const handleChangeHobby = (e) => {
-    setHobby(e.target.value);
+  const handleChangeLanguages = (e) => {
+    setLanguages(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name, age, salary, hobby });
+    console.log({ name, age, interests, languages });
+
+    axios
+      .post(
+        "https://sheet.best/api/sheets/c81a4894-b81a-421a-af03-4fa03f079ba9",
+        { name, age, interests, languages }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <div className={classes.root}>
+      <Typography variant="h4" gutterBottom style={{ wordWrap: "break-word" }}>
+        Transfer Data <br /> From React to <br /> Google Sheets
+      </Typography>
+
       <Container className="container">
         <form
           className={classes.root}
@@ -67,19 +91,19 @@ function App() {
           />
           <TextField
             id="standard-basic"
-            label="Salary"
-            type="number"
-            name="salary"
-            value={salary}
-            onChange={handleChangeSalary}
+            label="Interests"
+            type="string"
+            name="interests"
+            value={interests}
+            onChange={handleChangeInterests}
           />
           <TextField
             id="standard-basic"
-            label="Hobby"
+            label="Programming Languages"
             type="text"
-            name="hobby"
-            value={hobby}
-            onChange={handleChangeHobby}
+            name="langauges"
+            value={languages}
+            onChange={handleChangeLanguages}
           />
 
           <Button variant="contained" color="primary" type="submit">
